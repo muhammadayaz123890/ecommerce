@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+
+
+
+
+
+{% block content %}
+
+<style>
+    .row{
+         min-height: 80vh;
+    }
+    
+    .row .col form{
+        width: 40%;
+        height: 50%;
+
+    }
+</style>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col d-flex flex-column  justify-content-around align-items-center">
+                <h1>Login</h1>
+                {% if messages %}
+                {% for message in messages %}
+                <div class="error_box" style="color: red; font-weight: 600;">{{message}}</div>
+                {% endfor %}
+                {% endif %}
+                <form action="{% url 'login' %}" method="post" class="central-form d-flex flex-column justify-content-around align-items-center">
+                    {% csrf_token %}
+                    <input type="email" name="email" class="form-control" placeholder="Email Address">
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                    <button type="submit" class="btn btn-warning form-control">Login</button>
+                </form>
+                <p>Don't Have An Account Yet ? <a href="{% url 'register' %}">Register</a></p>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+
+
+

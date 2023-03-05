@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+<style>
+    .container .row{
+        background-color: white;
+    }
+    .row .img-col{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+    }
+    .row .img-col img{
+        max-width: 25rem;
+        max-height: 30rem;
+        object-fit: contain;
+        border-radius: 10px;
+    }
+    .row .col:nth-child(3){
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .row .col:nth-child(3) form{
+        width: 90%;
+        height: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+    }
+    .row .col:nth-child(2){
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .row .col:nth-child(2) .card-text{
+        min-height: 40%;
+
+    }
+</style>
+
+
+
+
+<div style=" box-sizing: border-box;min-height:40rem; margin-top: 3rem; margin-bottom: 2rem;" class="container">
+    <div style="min-height: 40rem;" class="row d-flex  row-cols-3 flex-wrap">
+        <div class="col img-col" >
+            <img class="card-img-top" src="{{product.img.url}}" alt="">
+        </div>
+        <div class="col">
+            <div class="card-text">
+                <h1>{{product.name}}</h1>
+                <h5>Price : {{product.price}}</h5>
+                <p>{{product.description}}</p>
+            </div>
+        </div>
+        <div class="col" >
+            <form class="first-form" action="{% url 'product' %}" method="post">
+                {% csrf_token %}
+                <input placeholder="Enter Mobile Number " name="number" required type="text" class="form-control">
+                <input placeholder="Enter the Amount " required name="amount" type="number" class="form-control">
+                
+                
+                <select name="country_name" id="country"  class="form-control">
+                    <option value="pakistan">Pakistan</option>
+                    <option value="india">India</option>
+                    <option value="bangladesh">Bangladesh</option>
+                </select>
+
+                
+                <select name="payment_method" id="country"  class="form-control">
+                    <option value="Paypal">Paypal</option>
+                    <option value="Stripe">Stripe</option>
+                    <option value="Cash_on_delivery">Cash on Delivery</option>
+                </select>
+
+                <input placeholder="Enter Your Street Address " required name="address" type="text" class="form-control">
+                <input type="text" value="{{product.id}}" name="product_id" hidden >
+                <button style="display:flex; justify-content: center; align-items: center;" type="submit" class="btn btn-warning            form-control">Next 
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

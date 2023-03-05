@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+
+<style>
+    .container{
+        margin-top: 5rem;
+    }
+    .container{
+        margin-bottom: 5rem;
+    }
+</style>
+
+
+
+
+
+<div class="container">
+    <h1>Your Cart</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Img</th>
+            <th scope="col">Product</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Price</th>
+            <th scope="col">Order Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for product in cart_products %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td><img style="max-height: 5rem; object-fit: contain; " src="{{product.product.img.url}}" alt=""></td>
+                <td>{{product.product.name}}</td>
+                <td>{{product.product.manufacturer}}</td>
+                <td>${{product.product.price}}</td>
+                <td><span class="bg-warning">Pending</span></td>
+                <td><form  action="">
+                    <input type="text" value="{{product.id}}" hidden>
+                <button type="submit" id="{{product.id}}" class="btn remove_btn btn-danger">Remove Item </button>
+            </form></td>
+        </tr>
+        {% endfor %}
+        <tbody>
+            <tr>
+                
+            </tr>
+        </tbody>
+        </tbody>
+      </table>
+
+      <div class="row row-cols-lg-6">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+            <h5>Total :     ${{total}}</h5>
+        </div>
+        <div class="col">
+            <form action="{% url 'cart_checkout' %}">
+                <button style="display: flex; justify-content: center; align-items: center;" class="add_btn btn btn-warning" type="submit" id="{{product.id}}"><span class="material-symbols-outlined">
+                    </span>Checkout</button>
+            </form>
+        </div>
+      </div>
+</div>
+
+
+
+<script id="for-quantity-send">
+
+    let q_inp = document.querySelectorAll("td input.amount");
+
+    let amount_list = new Array();
+
+    q_inp.forEach(inp => {
+        amount_list.push(inp.value)
+    })
+
+    console.log(`This is amount list ${amount_list}`)
+    
+
+
+</script>
+
+
+
+<script id="to-remove">
+
+
+    let remove_btn = document.querySelectorAll("button.remove_btn");
+
+
+    remove_btn.forEach(btn => {
+        btn.addEventListener("click" , (event) => {
+            event.preventDefault();
+
+            let xhr_remove = new XMLHttpRequest();
+
+            xhr_remove.open("GET" , `{% url 'remove_item' %}?product_id=${btn.id}` , true);
+
+
+
+
+            xhr_remove.send();
+
+        })
+    })
+
+
+
+
+
+</script>
+
+<script id="for-amount">
+
+    let amount_inupts = document.querySelectorAll("td input.amount");
+
+    amount_inupts.forEach(input => {
+        input.oninput = function(event){
+            if(event.target.value < 1){
+                event.target.value = 1
+            }
+        }
+    })
+
+
+
+</script>
+
+{% endblock %}
+
+

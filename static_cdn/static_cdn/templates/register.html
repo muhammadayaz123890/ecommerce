@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+
+
+
+
+
+{% block content %}
+
+<style>
+    .row{
+         min-height: 80vh;
+    }
+    
+    .row .col form{
+        width: 40%;
+        height: 70%;
+
+    }
+</style>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col d-flex flex-column  justify-content-around align-items-center">
+                <h1>Register</h1>
+                {% if messages %}
+                {% for message in messages %}
+                <div class="error_box" style="color: red; font-weight: 600;">{{message}}</div>
+                {% endfor %}
+                {% endif %}
+                <div class="error_box" style="color: red; font-weight: 600;"></div>
+                <form action="{% url 'register' %}" method="post" class="central-form d-flex reg_form form-c flex-column justify-content-around align-items-center">
+                    {% csrf_token %}
+                    <input placeholder="First Name" required type="text" class="form-control" name="first_name">
+                    <input type="text" name="last_name" required placeholder="Last Name" class="form-control">
+                    <input type="email" name="email" required class="form-control" placeholder="Email Address">
+                    <input type="password" name="password" required class="form-control pass_1" placeholder="Password">
+                    <input type="password" name="con_password" required class="form-control pass_2" placeholder="Confirm Password">
+                    <button type="submit" class="btn btn-warning form-control">Register</button>
+                </form>
+                <p>Already Have An Account ? <a href="{% url 'login' %}">Login</a></p>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script id="for-con-password">
+
+        let input_1 = document.querySelector("input.pass_1");
+        let input_2 = document.querySelector("input.pass_2");
+        let error_box = document.querySelector("div.error_box");
+        let form_reg = document.querySelector("form.reg_form");
+
+
+        form_reg.addEventListener("submit" , (event) => {
+
+            if(input_1.value != input_2.value){
+
+                event.preventDefault()
+
+                message = "Passwords didn't match!"
+
+                error_box.innerText = message
+
+            }
+        })
+        
+            
+    </script>
+
+
+{% endblock %}

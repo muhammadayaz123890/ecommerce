@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+<style>
+    
+    
+    .main-container .row .card{
+        border: 1.2px solid #332;
+        border-radius: 10px;
+        padding: .5rem;
+        margin: 1rem;
+    }
+    .main-container .row .card .card-footer{
+        background:none;
+        border: none;
+    }
+    .main-container .row .card .card-footer form button{
+        color: white;
+        background-color: orange;
+        outline: none;
+        border: none;
+        padding: .2rem 1rem;
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        
+    }
+    .btn-row{
+        display: flex;
+        justify-content: center;
+        margin-top: 5rem;
+        margin-bottom: 1rem;
+    }
+    .btn-row a{
+        text-decoration: none;
+        color: black;
+        background-color: orange;
+        padding: .1rem 2rem;
+        border-radius: 5px;
+        border: 1.2px solid orange;
+        background: none;
+    }
+    .btn-row a:hover{
+        color: white;
+        box-shadow: 0px 0px 10px black;
+        background: orange;
+    }
+    .card img.card-img-top{
+        max-height: 10rem;
+        object-fit: contain;
+    }
+    div.header-con{
+        margin-top: 2rem;
+        border: 2px olive solid;
+    }
+    
+    @media screen and (max-width:899px){
+        div.header-con{
+            display: none;
+        }
+    }
+    .container.header-container{
+        margin-top: 1rem;
+    }
+    .container #carouselExampleCaptions{
+        box-shadow: 0px 0px 5px black;
+        width: 100%;
+    }
+    
+    @media screen and (max-width:500px){
+        .container #carouselExampleCaptions .carousel-inner .carousel-item{
+            height: 10rem;
+        }
+    }
+    @media screen and (min-width:501px){
+        .container #carouselExampleCaptions .carousel-inner .carousel-item{
+            height: 15rem;
+        }
+    }
+    @media screen and (min-width:800px){
+        .container #carouselExampleCaptions .carousel-inner .carousel-item{
+        width: 20rem;
+        width: 100%;
+        height: 20rem;
+        object-fit: cover;
+    }
+    .container #carouselExampleCaptions .carousel-inner .carousel-item img{
+        object-fit: contain;
+    }
+    }
+    </style>
+
+
+<div class="container header-container d-flex flex-row justify-content-around align-items-center">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img  src="../media/b_1.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../media/l_1.pg.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../media/y_1.png"  class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+       </button>
+      </div>    
+</div>
+
+
+
+    
+    
+    <div class="main-container    container justify-content-around ">
+        <div class="row row-cols-6  d-flex flex-lg-row flex-md-column flex-wrap justify-content-around">
+            {% for product in products %}
+            <div data-aos="fade-up" class="card" style="width: 18rem;">
+                <a target="_blank" href="{{product.img.url}}"><img src="{{product.img.url}}" class="card-img-top" alt="..."></a>
+                <div class="card-body">
+                  <h5 class="card-title">{{product.name}}</h5>
+                  <div class="card-text">by <strong>{{product.manufacturer}}</strong></div>
+                  <div class="card-text"><strong>Price : ${{product.price}}</strong></div>
+                  <p class="card-text">orders : {{product.orders}}</p>
+                  <p class="card-text">{{product.description}}</p>
+                  <div  class="card-footer justify-content-between d-flex row row-cols-1 ">
+                    <form action="">
+                        
+                        <button class="add_btn" type="submit" id="{{product.id}}"><span class="material-symbols-outlined">
+                            add_shopping_cart
+                            </span>Add To Cart</button>
+                    </form>
+                    <form action="{% url 'place_order' %}?product_id={{product.id}}" >
+                        <button type="submit">
+                            <span class="material-symbols-outlined">
+                                credit_card
+                                </span>
+                                <input name="product_id" hidden type="text" value="{{product.id}}">
+                                Buy Now
+                        </button>
+                    </form>
+                  </div>
+                </div>
+                {% if product.is_in_stock %}
+                <div style="color: rgb(9, 244, 9); text-align: center;" class="card-text"><strong>In Stock</strong></div>
+                {% else %}
+                <div style="color: red; text-align: center;" class="card-text"><strong>Out of stock</strong></div>
+                {% endif %}
+              </div>
+            {% endfor %}
+        </div>
+        <div class="btn-row">
+            <a href="{% url 'all_products' %}">See More</a>
+        </div>
+        <hr>
+    </div>
+    
+    <div  data-aos="fade-left" class="container" style="margin-top: 5rem;">
+        <div class="row">
+            <h1 style="font-family: Segoe Script;">Our Suggestions</h1>
+        </div>
+    </div>
+
+    <div class="main-container container justify-content-around ">
+        <div class="row row-cols-6  d-flex flex-lg-row flex-md-column flex-wrap justify-content-around">
+            {% for product in r_products %}
+            <div data-aos="fade-up" class="card" style="width: 18rem;">
+                <a target="_blank" href="{{product.img.url}}"><img src="{{product.img.url}}" class="card-img-top" alt="..."></a>
+                <div class="card-body">
+                  <h5 class="card-title">{{product.name}}</h5>
+                  <div class="card-text">by <strong>{{product.manufacturer}}</strong></div>
+                  <div class="card-text"><strong>Price : ${{product.price}}</strong></div>
+                  <p class="card-text">orders : {{product.orders}}</p>
+                  <p class="card-text">{{product.description}}</p>
+                  <div  class="card-footer justify-content-between d-flex row row-cols-1 ">
+                    <form action="">
+                        
+                        <button class="add_btn" type="submit" id="{{product.id}}"><span class="material-symbols-outlined">
+                            add_shopping_cart
+                            </span>Add To Cart</button>
+                    </form>
+                    <form action="{% url 'place_order' %}?product_id={{product.id}}" >
+                        <button type="submit">
+                            <span class="material-symbols-outlined">
+                                credit_card
+                                </span>
+                                <input name="product_id" hidden type="text" value="{{product.id}}">
+                                Buy Now
+                        </button>
+                    </form>
+                  </div>
+                </div>
+                {% if product.is_in_stock %}
+                <div style="color: rgb(9, 244, 9); text-align: center;" class="card-text"><strong>In Stock</strong></div>
+                {% else %}
+                <div style="color: red; text-align: center;" class="card-text"><strong>Out of stock</strong></div>
+                {% endif %}
+              </div>
+            {% endfor %}
+        </div>
+        <div class="btn-row">
+            <a href="{% url 'all_products' %}">See More</a>
+        </div>
+        <hr>
+    </div>
+    <div data-aos="fade-left" class="container" style="margin-top: 5rem;">
+        <div class="row">
+            <h1 style="font-family: Segoe Script;">Most Ordered</h1>
+        </div>
+    </div>
+    <div class="main-container    container justify-content-around ">
+        <div class="row row-cols-6  d-flex flex-lg-row flex-md-column flex-wrap justify-content-around">
+            {% for product in o_products %}
+            <div data-aos="fade-up" class="card" style="width: 18rem;">
+                <a target="_blank" href="{{product.img.url}}"><img src="{{product.img.url}}" class="card-img-top" alt="..."></a>
+                <div class="card-body">
+                  <h5 class="card-title">{{product.name}}</h5>
+                  <div class="card-text">by <strong>{{product.manufacturer}}</strong></div>
+                  <div class="card-text"><strong>Price : ${{product.price}}</strong></div>
+                  <p class="card-text">orders : {{product.orders}}</p>
+                  <p class="card-text">{{product.description}}</p>
+                  <div  class="card-footer justify-content-between d-flex row row-cols-1 ">
+                    <form action="">
+                        
+                        <button class="add_btn" type="submit" id="{{product.id}}"><span class="material-symbols-outlined">
+                            add_shopping_cart
+                            </span>Add To Cart</button>
+                    </form>
+                    <form action="{% url 'place_order' %}?product_id={{product.id}}" >
+                        <button type="submit">
+                            <span class="material-symbols-outlined">
+                                credit_card
+                                </span>
+                                <input name="product_id" hidden type="text" value="{{product.id}}">
+                                Buy Now
+                        </button>
+                    </form>
+                  </div>
+                </div>
+                {% if product.is_in_stock %}
+                <div style="color: rgb(9, 244, 9); text-align: center;" class="card-text"><strong>In Stock</strong></div>
+                {% else %}
+                <div style="color: red; text-align: center;" class="card-text"><strong>Out of stock</strong></div>
+                {% endif %}
+              </div>
+            {% endfor %}
+        </div>
+        <div class="btn-row">
+            <a href="{% url 'all_products' %}">See More</a>
+        </div>
+        <hr>
+    </div>
+
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+<script id="add_to_cart">
+    let add__to_cart_btn = document.querySelectorAll("button.add_btn");
+
+    add__to_cart_btn.forEach(btn => {
+        btn.addEventListener("click" , (event) => {
+            console.log(btn.id)
+            event.preventDefault();
+
+            let xhr = new XMLHttpRequest();
+
+            xhr.open("GET" , `{% url "add_to_cart" %}?product_id=${btn.id}` , true);
+
+
+
+            xhr.send();
+        })
+    })
+</script>
+
+
+
+
+{% endblock %}
+
+
+

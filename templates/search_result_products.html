@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+
+
+
+
+
+
+
+
+{% block content %}
+
+<style>
+    .main-container .row .card{
+        border: 1.2px solid #332;
+        border-radius: 10px;
+        padding: .5rem;
+        margin: 1rem;
+    }
+    .main-container .row .card .card-footer{
+        background:none;
+        border: none;
+    }
+    .main-container .row .card .card-footer form button{
+        color: white;
+        background-color: orange;
+        outline: none;
+        border: none;
+        padding: .2rem 1rem;
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .btn-row{
+        display: flex;
+        justify-content: center;
+        margin-top: 5rem;
+        margin-bottom: 1rem;
+    }
+    .btn-row a{
+        text-decoration: none;
+        color: black;
+        background-color: orange;
+        padding: .1rem 2rem;
+        border-radius: 5px;
+        border: 1.2px solid orange;
+        background: none;
+    }
+    .btn-row a:hover{
+        color: white;
+        box-shadow: 0px 0px 10px black;
+        background: orange;
+    }
+    .card img.card-img-top{
+        max-height: 10rem;
+        object-fit: contain;
+    }
+</style>
+
+
+<div class="main-container    container justify-content-around ">
+    <div class="row" style="margin-top: 2rem;">
+        <h2>Showing Results for <strong>{{your_key}}</strong></h2>
+    </div>
+    <div class="row row-cols-6  d-flex flex-lg-row flex-md-column flex-wrap justify-content-around">
+        {% if products %}
+        {% for product in products %}
+        <div class="card" style="width: 18rem;">
+            <a target="_blank" href="{{product.img.url}}"><img src="{{product.img.url}}" class="card-img-top" alt="..."></a>
+            <div class="card-body">
+              <h5 class="card-title">{{product.name}}</h5>
+              <div class="card-text"><strong>Price : {{product.price}}</strong></div>
+              <p class="card-text">{{product.description}}</p>
+              <div  class="card-footer justify-content-between d-flex row row-cols-1 ">
+                <form action="">
+                    
+                    <button type="submit"><span class="material-symbols-outlined">
+                        shopping_cart_checkout
+                        </span>Add To Cart</button>
+                </form>
+                <form action="">
+                    <button type="submit">
+                        <span class="material-symbols-outlined">
+                            credit_card
+                            </span>
+                            Buy Now
+                    </button>
+                </form>
+              </div>
+            </div>
+            {% if product.is_in_stock %}
+            <div style="color: rgb(9, 244, 9); text-align: center;" class="card-text"><strong>In Stock</strong></div>
+            {% else %}
+            <div style="color: red; text-align: center;" class="card-text"><strong>Out of stock</strong></div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        {% else %}
+
+          <div class="col-2">
+        <h3>Nothing found </h3>
+
+          </div>
+
+        {% endif %}
+    </div>
+    <hr>
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

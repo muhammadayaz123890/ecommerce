@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+<style>
+    .container .row{
+        background-color: white;
+        padding: 1rem;
+    }
+    .row .img-col{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+    }
+    .row .img-col img{
+        max-width: 25rem;
+        max-height: 30rem;
+        object-fit: contain;
+        border-radius: 10px;
+    }
+    .row .col:nth-child(3){
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .row .col:nth-child(3) form select{
+        margin-top: .5rem;
+    }
+    .row .col:nth-child(3) form button{
+        margin-top: .5rem;
+    }
+    .row .col:nth-child(3) form{
+        width: 30%;
+        height: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+    }
+    .row .col:nth-child(3) form input{
+        margin-top: .5rem;
+    }
+    @media screen and (max-width : 500px){
+        .row .col:nth-child(3) form{
+            width: 90%;
+        }
+    }
+    @media screen and (max-width : 800px){
+        .row .col:nth-child(3) form{
+            width: 70%;
+        }
+    }
+    .row .col:nth-child(2){
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .row .col:nth-child(2) .card-text{
+        min-height: 40%;
+
+    }
+    .row .col:nth-child(1){
+        width:100%;
+    }
+    .row .col:nth-child(2){
+        width: 0%;
+    }
+</style>
+
+
+
+
+<div style=" box-sizing: border-box;min-height:40rem; margin-top: 3rem; margin-bottom: 2rem;" class="container">
+    <div style="min-height: 40rem;" class="row d-flex  row-cols-2 flex-wrap">
+        <div class="col img-col" >
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Img</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for product in cart_products %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><img style="max-width: 3rem; max-height: 3rem;" src="{{product.product.img.url}}" alt=""></td>
+                        <td>{{product.product.name}}</td>
+                        <td>${{product.product.price}}</td>
+                        <td><form  action="#" method="post">
+                            {% csrf_token %}
+                            <input type="text" value="{{product.id}}" hidden>
+                        <button type="submit" id="{{product.id}}" class="btn remove_btn btn-danger">Remove Item </button>
+                    </form></td>
+                    </tr>
+                    {% endfor %}
+                <tbody>
+                    <tr>
+                        
+                    </tr>
+                </tbody>
+                </tbody>
+              </table>
+        </div>
+        <div class="col">
+            
+        </div>
+        
+        
+        <div class="col" >
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script id="to-remove">
+
+
+    let remove_btn = document.querySelectorAll("button.remove_btn");
+
+
+    remove_btn.forEach(btn => {
+        btn.addEventListener("click" , (event) => {
+            event.preventDefault();
+
+            let xhr_remove = new XMLHttpRequest();
+
+            xhr_remove.open("GET" , `{% url 'remove_item' %}?product_id=${btn.id}` , true);
+
+            xhr_remove.send();
+
+        })
+    })
+
+
+
+
+
+</script>
+
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD&intent=capture&enable-funding=venmo" data-sdk-integration-source="integrationbuilder"></script>
+        <script>
+          const paypalButtonsComponent = paypal.Buttons({
+              // optional styling for buttons
+              // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+              style: {
+                color: "gold",
+                shape: "rect",
+                layout: "vertical"
+              },
+
+              // set up the transaction
+              createOrder: (data, actions) => {
+                  // pass in any options from the v2 orders create call:
+                  // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
+                  const createOrderPayload = {
+                      purchase_units: [
+                          {
+                              amount: {
+                                  value: "88.44"
+                              }
+                          }
+                      ]
+                  };
+
+                  return actions.order.create(createOrderPayload);
+              },
+
+              // finalize the transaction
+              onApprove: (data, actions) => {
+                  const captureOrderHandler = (details) => {
+                      const payerName = details.payer.name.given_name;
+                      console.log('Transaction completed');
+                  };
+
+                  return actions.order.capture().then(captureOrderHandler);
+              },
+
+              // handle unrecoverable errors
+              onError: (err) => {
+                  console.error('An error prevented the buyer from checking out with PayPal');
+              }
+          });
+
+          paypalButtonsComponent
+              .render("#paypal-button-container")
+              .catch((err) => {
+                  console.error('PayPal Buttons failed to render');
+              });
+        </script>
+        
+
+
+
+
+
+{% endblock %}

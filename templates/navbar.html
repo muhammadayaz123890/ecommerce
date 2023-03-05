@@ -1,0 +1,82 @@
+<style>
+    nav.navbar{
+      background-color: rgb(250, 197, 50);
+    }
+    .navbar a.navbar-brand{
+        color: white;
+        color: darkturquoise;
+        font-size: 1.3rem;
+        font-weight: 600;
+        font-family: sans-serif;
+    }
+    .navbar-expand-lg{
+        padding-left: 6rem;
+        padding-right: 5rem;
+    }
+    span.navbar-toggler-icon{
+        border: 1.2px solid white;
+        outline: none;
+        color: white;
+    }
+    @media screen and (min-width:800px){
+      .navbar .container-fluid a.navbar-brand{
+        font-size: 2.1rem;
+      }
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: black; font-family:Segoe Script; ">Ayaz E-Commerce Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon">T</span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" style="font-size: 1.2rem; font-weight: 600; color: orangered;" aria-current="page" href="{% url 'home' %}">Home</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" style="font-size: 1.2rem; font-weight: 600; color: orangered;"  href="{% url 'home' %}#trending">Trending</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a style="color: orangered; font-size: 1.2rem ; font-weight: 600;
+            " class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Profile
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              
+              <li><a class="dropdown-item" href="{% url 'login' %}" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; "><span class="material-symbols-outlined">
+                login
+              </span> Login</a></li>
+              
+              <li><a style="display: flex; justify-content: space-between; flex-direction: row; align-items: center;  " class="dropdown-item" href="{% url 'register' %}"><span class="material-symbols-outlined">
+                person_add
+              </span>    Register</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; "><span class="material-symbols-outlined">
+                logout
+                </span> Logout</a></li>
+              
+              <li><hr class="dropdown-divider"></li>
+              
+              <li ><a  style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; " class="dropdown-item" href="{% url 'profile' %}"><span class="material-symbols-outlined">
+                person
+              </span> Your Profile</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" style="font-size: 1.2rem; font-weight: 600; color: orangered;" aria-current="page" href="{% url 'cart' %}">Cart</a>
+          </li>
+        </ul>
+        <form class="d-flex" action="{% url 'search' %}" >
+          <input name="search_key" class="form-control me-2" type="search" placeholder="Search Products" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div> 
+    </div>
+  </nav>
+
+
+
+  
